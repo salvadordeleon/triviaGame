@@ -3,3 +3,10 @@ body {
   color: black;
 
 }
+
+.choice {
+border: 1px solid gray;
+padding: 12px;
+border-radius: 5x;
+cursor: pointer;
+}

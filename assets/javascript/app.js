@@ -5,8 +5,27 @@ var score = 0;
 var lost = 0;
 var timer;
 
+//create a timer...
+
+function timeUp() {
+  clearInterval(timer);
+}
+
+function countDown(){
+  counter--;
+
+  $("#time").html("Timer: " + counter);
+  
+  if (counter === 0) {
+    timeUp();
+  }
+}
+
 // Show the questions and answers on the screen.
 function loadQuestion() {
+  counter =30;
+  timer = setInterval(countDown, 1000);
+
   var question = triviaQuestion[currentQuestion].question;
   var choices = triviaQuestion[currentQuestion].choices;
 
