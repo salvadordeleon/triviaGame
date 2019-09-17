@@ -1,14 +1,31 @@
 // starter values
-var counter = 30;
+var counter = 0;
 var currentQuestion = 0;
 var score = 0;
 var lost = 0;
 var timer;
 
+// if timer is at 0 go to next question
+function nextQuestion() {
+  var allDone = (triviaQuestion.length -1) === currentQuestion;
+
+  if (allDone) {
+    //todo
+    console.log("game is over");
+  }  else {
+    currentQuestion++;
+    loadQuestion(); 
+  }
+} 
+
 //create a timer...
 
 function timeUp() {
   clearInterval(timer);
+
+  lost++;
+
+  nextQuestion();
 }
 
 function countDown(){
@@ -23,7 +40,9 @@ function countDown(){
 
 // Show the questions and answers on the screen.
 function loadQuestion() {
-  counter =30;
+
+ 
+  counter =5;
   timer = setInterval(countDown, 1000);
 
   var question = triviaQuestion[currentQuestion].question;
@@ -45,5 +64,9 @@ function loadChoices(choices) {
   return result;
 
 }
-
+// right or wrong answer triggers next question...
+$(document).on('click', '.choice', function() {
+  var selectedAnswer = $(this).attr('data-answer');
+    console.log('working: ', selectedAnswer);
+});;
 loadQuestion();
