@@ -23,8 +23,8 @@ function timeUp() {
   clearInterval(timer);
 
   lost++;
-
-  nextQuestion();
+preloadImage("loss");
+  setTimeout(nextQuestion, 3 * 1000);
 }
 
 function countDown() {
@@ -39,7 +39,7 @@ function countDown() {
 
 // Show the questions and answers on the screen.
 function loadQuestion() {
-  counter = 5;
+  counter = 15;
   timer = setInterval(countDown, 1000);
 
   var question = triviaQuestion[currentQuestion].question;
@@ -49,6 +49,7 @@ function loadQuestion() {
   $("#game").html(`
       <h4>${question}</h4>
       ${loadChoices(choices)}
+      ${loadRemainingQuestion()}
       `);
 }
 
@@ -68,10 +69,14 @@ $(document).on("click", ".choice", function() {
 
   if (correctAnswer === selectedAnswer) {
     score++;
+    preloadImage("win");
+    setTimeout(nextQuestion, 3 * 1000);
     nextQuestion();
     console.log("winner winner!");
   } else {
     lost++;
+    preloadImage("loss");
+    setTimeout(nextQuestion, 3 * 1000);
     nextQuestion();
     console.log("LOOOOOOSER!!!");
   }
@@ -87,5 +92,49 @@ function displayResult() {
 
   $("#game").html(result);
 }
+
+$(document).on("click", "reset", function() {
+   counter = 15;
+   currentQuestion = 0;
+   score = 0;
+   lost = 0;
+   timer = null;
+
+   loadQuestion();
+});;
+
+function loadRemainingQuestion() {
+  var remainingQuestion = triviaQuestion.length - (currentQuestion + 1);
+  var totalQuestion = triviaQuestion.length;
+
+  return `Remaining Question: ${remainingQuestion}/${totalQuestion}`;
+}
+
+function randomImage(images) {
+  var random = Math.floor(Math.random() * images.length);
+  var randomImage = images[random];
+  return randomImage;
+}
+
+function preloadImage(status) {
+var correctAnswer = triviaQuestion[currentQuestion].correctAnswer;
+
+if (status === "win") {
+  $("#game").html(`
+  <p class= "preload-image"> Right on!!! You got it right.</p>
+  <p class= "preload-image"> The right answer is ${correctAnswer}</p>
+  <img src="${randomImage(correctImages)}"/>
+  `);
+ } else {
+  $("#game").html(`
+  <p class= "preload-image"> The right answer was ${correctAnswer}</p>
+  <p class= "preload-image"> OOOOOOHHHHHH.... That's a NEGATIVE!</p>
+  <img src="${randomImage(incorrectImages)}"/>
+  `);       
+ }
+
+}
+
+
 
 loadQuestion();

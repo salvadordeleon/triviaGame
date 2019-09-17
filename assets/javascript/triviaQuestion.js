@@ -30,3 +30,16 @@ var triviaQuestion = [
 
     }
 ];
+
+var correctImages = [
+    "./assets/images/correct/giphy.gif",
+    "./assets/images/correct/obama.gif",
+    "./assets/images/correct/Uncle_Phil.gif",
+];
+
+var incorrectImages = [
+"./assets/images/incorrect/cmon_son.giphy",
+"./assets/images/incorrect/Not_correct.giphy",
+"./assets/images/incorrect/thumbs_down.giphy",
+
+];

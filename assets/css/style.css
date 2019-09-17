@@ -1,12 +1,25 @@
 body {
   background-image: url("../images/ekr.jpg");
   color: black;
-
 }
 
 .choice {
-border: 1px solid gray;
-padding: 12px;
-border-radius: 5x;
-cursor: pointer;
+  border: 1px solid gray;
+  padding: 12px;
+  border-radius: 5x;
+  cursor: pointer;
+  color: white;
 }
+
+h4 {
+  color: red;
+}
+
+h2 {
+  color: white;
+}
+
+p {
+  color: lightgray;
+}
+
