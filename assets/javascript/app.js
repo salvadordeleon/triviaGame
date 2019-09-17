@@ -7,16 +7,15 @@ var timer;
 
 // if timer is at 0 go to next question
 function nextQuestion() {
-  var allDone = (triviaQuestion.length -1) === currentQuestion;
+  var allDone = triviaQuestion.length - 1 === currentQuestion;
 
   if (allDone) {
-    //todo
-    console.log("game is over");
-  }  else {
+    displayResult();
+  } else {
     currentQuestion++;
-    loadQuestion(); 
+    loadQuestion();
   }
-} 
+}
 
 //create a timer...
 
@@ -28,11 +27,11 @@ function timeUp() {
   nextQuestion();
 }
 
-function countDown(){
+function countDown() {
   counter--;
 
   $("#time").html("Timer: " + counter);
-  
+
   if (counter === 0) {
     timeUp();
   }
@@ -40,9 +39,7 @@ function countDown(){
 
 // Show the questions and answers on the screen.
 function loadQuestion() {
-
- 
-  counter =5;
+  counter = 5;
   timer = setInterval(countDown, 1000);
 
   var question = triviaQuestion[currentQuestion].question;
@@ -56,17 +53,39 @@ function loadQuestion() {
 }
 
 function loadChoices(choices) {
-  var result = '';
+  var result = "";
 
   for (var i = 0; i < choices.length; i++) {
     result += `<p class="choice" data-answer="${choices[i]}">${choices[i]}</p>`;
   }
   return result;
-
 }
 // right or wrong answer triggers next question...
-$(document).on('click', '.choice', function() {
-  var selectedAnswer = $(this).attr('data-answer');
-    console.log('working: ', selectedAnswer);
-});;
+$(document).on("click", ".choice", function() {
+  clearInterval(timer);
+  var selectedAnswer = $(this).attr("data-answer");
+  var correctAnswer = triviaQuestion[currentQuestion].correctAnswer;
+
+  if (correctAnswer === selectedAnswer) {
+    score++;
+    nextQuestion();
+    console.log("winner winner!");
+  } else {
+    lost++;
+    nextQuestion();
+    console.log("LOOOOOOSER!!!");
+  }
+});
+
+function displayResult() {
+  var result = `
+  <p>You got ${score} questions(s) right</p>
+  <p>You missed ${lost} questions(s) right</p>
+  <p>Total Questions ${triviaQuestion.length} questions(s) right</p>
+  <button class="btn btn-success" id="reset">Reset Game</button>
+  `;
+
+  $("#game").html(result);
+}
+
 loadQuestion();
